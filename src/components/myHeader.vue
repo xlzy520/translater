@@ -1,12 +1,12 @@
 <template>
   <div class="home-view">
-    <header class="navigator">
+    <header class="navigator" :class="{active:isactive}">
       <h1 class="logo">
-        <a href="#">
+        <cube-button href="#" @click="showAlert">
           <span>I ღ you</span>
-        </a>
+        </cube-button>
       </h1>
-      <div class="tabs" :class="active">
+      <div class="tabs">
        <a href="#" class="tab right router-link-exact-active router-link-active">
          <span>首页</span>
        </a>
@@ -33,11 +33,22 @@ export default {
   name: 'myHeader',
   data () {
     return {
-      title: '汉译日',
-      toastTxt: 'cube toast content'
+      isactive: false,
+      title: '汉译日'
     }
   },
   methods: {
+    tabs_show: function () {
+      this.isactive = this.isactive !== true
+    },
+    showAlert: function () {
+      this.$createDialog({
+        type: 'alert',
+        title: '我是标题',
+        content: '我是内容',
+        icon: 'cubeic-alert'
+      }).show()
+    }
   }
 }
 </script>
@@ -71,14 +82,17 @@ export default {
 
   .home-view {
     height 100%
+    padding-top: 70px
     box-sizing border-box;
-    -webkit-transition all .25s ease;
-    transition all .25s ease;
+    -webkit-transition: all .25s ease;
+    transition: all .25s ease;
 
     .navigator{
+      height 64px
       opacity 0.9
       line-height 62px;
-      background-color #4a4c5b;
+      margin-top: -70px
+      background-color #96D9E4;
       -webkit-transition all .3s ease;
       transition all .3s ease;
       overflow hidden;
@@ -86,8 +100,8 @@ export default {
       .logo{
         float left;
         background-color #fc9153;
-        a{
-          display block;
+        .cube-btn{
+          display inline-block;
           padding 0 28px;
           color #fff;
           font-size 20px;
@@ -95,8 +109,9 @@ export default {
             content "";
             display inline-block;
             background url('../assets/翻译1.png') no-repeat;
-            width 64px!important;
-            height 64px!important;
+            background-position center
+            width 64px;
+            height 64px;
             margin-right 10px;
             vertical-align middle;
           }
@@ -107,20 +122,29 @@ export default {
         }
       }
       .tabs{
+        background-color #4a4c5b
         float right;
         padding 0 30px;
+        -webkit-transition all .25s ease;
+        transition all .25s ease;
         .tab{
           display: inline-block;
           margin: 0 10px;
           color: #fff;
           -webkit-transition: color .2s;
           transition: color .2s;
+          &:hover{
+            color didi_color
+          }
+        }
+        .router-link-active{
+          color didi_color
         }
         .langs{
           display: inline-block;
           margin: 0 20px;
           .active {
-            color: #fc9153;
+            color: didi_color
           }
           a{
             color #fff
@@ -128,12 +152,12 @@ export default {
               content: "/";
               padding: 0 5px;
             }
+            &:hover{
+              color didi_color
+            }
           }
 
         }
-      }
-      .active{
-        height 3.1rem
       }
       .toggle-nav{
         display none;
@@ -178,5 +202,8 @@ export default {
       }
     }
 
+    .active{
+      height 243px
+    }
   }
 </style>
