@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import myHeader from '@/components/myHeader'
+// import myHeader from '@/components/myHeader'
+import Home from '@/views/Home'
 
 Vue.use(Router)
 
@@ -8,8 +9,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'myHeader',
-      component: myHeader
+      name: 'Home',
+      component: Home
     }
   ]
 })

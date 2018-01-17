@@ -1,10 +1,9 @@
 <template>
-  <div class="home-view">
-    <header class="navigator" :class="{active:isactive}">
+  <header class="navigator" :class="{active:isActive}">
       <h1 class="logo">
-        <cube-button href="#" @click="showAlert">
+        <a href="#" @click="showAlert">
           <span>I ღ you</span>
-        </cube-button>
+        </a>
       </h1>
       <div class="tabs">
        <a href="#" class="tab right router-link-exact-active router-link-active">
@@ -25,28 +24,26 @@
         <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTEwNjQ5NDAxODMzIiBjbGFzcz0iaWNvbiIgc3R5bGU9IiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjQ1OTEiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzIiIGhlaWdodD0iMzIiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTE1MS45OTA4MTMgMTc1Ljk5MDYyNWg3MTkuOTk0Mzc1YTM1Ljk5OTcxOSAzNS45OTk3MTkgMCAwIDEgMzUuOTk5NzE4IDM1Ljk5OTcxOXYyNC43NDM4MDdhMzUuOTk5NzE5IDM1Ljk5OTcxOSAwIDAgMS0zNS45OTk3MTggMzUuOTk5NzE4aC03MTkuOTk0Mzc1YTM1Ljk5OTcxOSAzNS45OTk3MTkgMCAwIDEtMzUuOTk5NzE5LTM1Ljk5OTcxOFYyMTEuOTkwMzQ0YTM1Ljk5OTcxOSAzNS45OTk3MTkgMCAwIDEgMzUuOTk5NzE5LTM1Ljk5OTcxOXogbTAgMjg4Ljc0MTc0NGg3MTkuOTk0Mzc1YTM1Ljk5OTcxOSAzNS45OTk3MTkgMCAwIDEgMzUuOTk5NzE4IDM1Ljk5OTcxOXYyMi41MTE4MjRhMzUuOTk5NzE5IDM1Ljk5OTcxOSAwIDAgMS0zNS45OTk3MTggMzUuOTk5NzE5aC03MTkuOTk0Mzc1YTM1Ljk5OTcxOSAzNS45OTk3MTkgMCAwIDEtMzUuOTk5NzE5LTM1Ljk5OTcxOXYtMjIuNTExODI0YTM1Ljk5OTcxOSAzNS45OTk3MTkgMCAwIDEgMzUuOTk5NzE5LTM1Ljk5OTcxOXogbTAgMjg2LjUwOTc2Mmg3MTkuOTk0Mzc1YTM1Ljk5OTcxOSAzNS45OTk3MTkgMCAwIDEgMzUuOTk5NzE4IDM1Ljk5OTcxOXYyNC43NDM4MDZhMzUuOTk5NzE5IDM1Ljk5OTcxOSAwIDAgMS0zNS45OTk3MTggMzUuOTk5NzE5aC03MTkuOTk0Mzc1YTM1Ljk5OTcxOSAzNS45OTk3MTkgMCAwIDEtMzUuOTk5NzE5LTM1Ljk5OTcxOXYtMjQuNzQzODA2YTM1Ljk5OTcxOSAzNS45OTk3MTkgMCAwIDEgMzUuOTk5NzE5LTM1Ljk5OTcxOXoiIHAtaWQ9IjQ1OTIiIGZpbGw9IiNmZmZmZmYiPjwvcGF0aD48L3N2Zz4=">
       </span>
     </header>
-  </div>
 </template>
 
 <script>
 export default {
-  name: 'myHeader',
+  name: 'MyHeader',
   data () {
     return {
-      isactive: false,
-      title: '汉译日'
+      isActive: false
     }
   },
   methods: {
     tabs_show: function () {
-      this.isactive = this.isactive !== true
+      this.isActive = this.isActive !== true
     },
     showAlert: function () {
       this.$createDialog({
         type: 'alert',
-        title: '我是标题',
-        content: '我是内容',
-        icon: 'cubeic-alert'
+        title: '千千',
+        content: '我爱你呀',
+        icon: 'cubeic-love'
       }).show()
     }
   }
@@ -80,17 +77,12 @@ export default {
     color didi_color;
   }
 
-  .home-view {
-    height 100%
-    padding-top: 70px
-    box-sizing border-box;
-    -webkit-transition: all .25s ease;
-    transition: all .25s ease;
+
 
     .navigator{
-      height 64px
+      height 70px
       opacity 0.9
-      line-height 62px;
+      line-height 70px;
       margin-top: -70px
       background-color #96D9E4;
       -webkit-transition all .3s ease;
@@ -100,7 +92,7 @@ export default {
       .logo{
         float left;
         background-color #fc9153;
-        .cube-btn{
+        a{
           display inline-block;
           padding 0 28px;
           color #fff;
@@ -110,8 +102,8 @@ export default {
             display inline-block;
             background url('../assets/翻译1.png') no-repeat;
             background-position center
-            width 64px;
-            height 64px;
+            width 72px;
+            height 72px;
             margin-right 10px;
             vertical-align middle;
           }
@@ -193,7 +185,7 @@ export default {
           left 10px;
           top 0;
           width 40px;
-          height 64px;
+          height 70px;
           -webkit-box-align center;
           align-items center;
           -webkit-box-pack center;
@@ -203,7 +195,7 @@ export default {
     }
 
     .active{
-      height 243px
+      height 250px
     }
-  }
+
 </style>
