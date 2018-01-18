@@ -51,41 +51,16 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="stylus" scoped>
+<style lang="stylus">
   my_blue=#1296db
   didi_color=#fc9153;
-  a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, html, i, iframe, img, input, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
-    margin 0;
-    padding 0;
-    border 0;
-    font-size 100%;
-    font-weight 400;
-    vertical-align baseline;
-  }
-  h1, h2 {
-    font-weight normal;
-  }
-  ul {
-    list-style-type none;
-    padding 0;
-  }
-  li {
-    display inline-block;
-    margin 0 10px;
-  }
-  a {
-    color didi_color;
-  }
-
-
-
     .navigator{
+      width 100%
       height 70px
       opacity 0.9
       line-height 70px;
       margin-top: -70px
       background-color #96D9E4;
-      -webkit-transition all .3s ease;
       transition all .3s ease;
       overflow hidden;
 
@@ -117,13 +92,11 @@ export default {
         background-color #4a4c5b
         float right;
         padding 0 30px;
-        -webkit-transition all .25s ease;
         transition all .25s ease;
         .tab{
           display: inline-block;
           margin: 0 10px;
           color: #fff;
-          -webkit-transition: color .2s;
           transition: color .2s;
           &:hover{
             color didi_color

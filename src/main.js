@@ -40,7 +40,7 @@ Vue.use(Scroll)
 Vue.use(Slide)
 Vue.use(IndexList)
 
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 
 /* eslint-disable no-new */
 new Vue({
