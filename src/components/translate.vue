@@ -5,17 +5,31 @@
         <div class="ls-wrap">
           <div class="sl-selector lang-list">
             <div class="lang-btn">
-
-              <cube-button @click="showActive" class="ls-select new-ls-select sl-btn">中文</cube-button>
+              <cube-button @click="showActive" class="ls-select new-ls-select sl-btn">{{sl.content}}</cube-button>
             </div>
-          </div><div class="swap-wrap"><div class="swap"><div class="swap-btn-img"></div></div>
+          </div><div class="swap-wrap" @click="swap"><div class="swap"><div class="swap-btn-img btn-img"></div></div>
         </div><div class="tl-selector lang-list">
             <div class="lang-btn">
-              <a class="ls-select new-ls-select">日语</a>
+              <cube-button @click="showActive" class="ls-select new-ls-select tl-btn">{{tl.content}}</cube-button>
             </div>
           </div>
         </div>
-        <div class="source-wrap"></div>
+        <div class="source-wrap">
+          <div class="source-input">
+            <div class="source-header">
+              <div class="clear-wrap">
+                <div class="clear-btn btn-img"></div>
+              </div>
+              <div class="go-wrap">
+                <div class="go-btn btn-img"></div>
+              </div>
+            </div>
+            <div class="input-wrap">
+              <textarea id="source" class=""></textarea>
+            </div>
+            <div class="source-footer-wrap"></div>
+          </div>
+        </div>
       </div>
       <div class="clist"></div>
       <div class="footer-history"></div>
@@ -29,13 +43,22 @@
     export default {
       name: 'translate',
       data () {
-        return {}
+        return {
+          sl: {content: '中文', active: 0},
+          tl: {content: '日语', active: 2}
+        }
       },
       methods: {
-        showActive () {
+        showActive (e) {
+          let arg
+          if (e.target.className.indexOf('sl-btn') !== -1) {
+            arg = this.sl
+          } else {
+            arg = this.tl
+          }
           this.$createActionSheet({
             title: '选择语言',
-            active: 0,
+            active: arg.active,
             data: [
               {
                 content: '中文'
@@ -49,19 +72,24 @@
             ],
             onSelect: (item, index) => {
               this.$createToast({
-                txt: `Clicked${item.content},第${index + 1}个`,
-                type: 'warn',
-                time: 1000
+                txt: `选择${item.content},第${index + 1}个`,
+                type: 'correct',
+                time: 500
               }).show()
+              arg.content = item.content
+              arg.active = index
             },
             onCancel: () => {
               this.$createToast({
-                txt: `Clicked Canceled`,
+                txt: ``,
                 type: `warn`,
-                time: 1000
-              }).show()
+                time: 500
+              })
             }
           }).show()
+        },
+        swap () {
+          [this.sl, this.tl] = [this.tl, this.sl]
         }
       }
     }
@@ -71,7 +99,14 @@
 
   .translate-frame {
     width 100%
-
+    .btn-img{
+      background-image  -webkit-image-set(url('../assets/1x_mobile.png') 1x,
+      url('../assets/2x_mobile.png') 2x)
+      height 24px
+      width 24px
+      display inline-block
+      background-repeat no-repeat
+    }
     .page {
       height 100%
       width 100%
@@ -156,12 +191,6 @@
               min-width 34px
               text-align center
               .swap-btn-img {
-                background-image  -webkit-image-set(url('../assets/1x_mobile.png') 1x,
-                url('../assets/2x_mobile.png') 2x)
-                height 24px
-                width 24px
-                display inline-block
-                background-repeat no-repeat
                 background-position 0 -48px
                 opacity 0.55
                 user-select none
@@ -172,7 +201,37 @@
           }
         }
         .source-wrap {
-
+          position relative
+          .source-input{
+            position relative
+            background-color #fff
+            padding 16px 0 10px 0
+            z-index 0
+            .source-header{
+              position absolute
+              right 12px
+              z-index 1
+              padding-left 16px
+              .clear-wrap{
+                display inline-block
+                float right
+                .clear-btn{
+                  background-position: 0 -192px;
+                  opacity: .55!important;
+                  margin-top: 0;
+                }
+              }
+              .go-wrap{
+                display inline-block
+                float: right
+                .go-btn{
+                  background-position: 0 -70px;
+                  margin-left: 0;
+                  vertical-align: bottom;
+                }
+              }
+            }
+          }
         }
       }
     }
