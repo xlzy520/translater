@@ -17,15 +17,15 @@
         <div class="source-wrap">
           <div class="source-input">
             <div class="source-header">
-              <div class="clear-wrap">
+              <div class="clear-wrap lzy-btn">
                 <div class="clear-btn btn-img"></div>
               </div>
-              <div class="go-wrap">
+              <div class="go-wrap lzy-btn">
                 <div class="go-btn btn-img"></div>
               </div>
             </div>
             <div class="input-wrap">
-              <textarea id="source" class=""></textarea>
+              <textarea id="source" class="source_input" placeholder="触摸即可输入文字"></textarea>
             </div>
             <div class="source-footer-wrap"></div>
           </div>
@@ -96,7 +96,10 @@
 </script>
 
 <style lang="stylus">
-
+  textarea{
+    background-image none
+    border-radius 0
+  }
   .translate-frame {
     width 100%
     .btn-img{
@@ -224,12 +227,45 @@
               .go-wrap{
                 display inline-block
                 float: right
+                line-height 24px
+                box-shadow 0 1px 2px rgba(0,0,0,.54)
+                background-color #4285f4
+                margin-right 24px
                 .go-btn{
-                  background-position: 0 -70px;
+                  background-position: 0 -72px;
                   margin-left: 0;
                   vertical-align: bottom;
                 }
               }
+              .lzy-btn{
+                border 0
+                border-radius 50%
+                width 24px
+                height 24px
+                min-width 24px
+              }
+            }
+          }
+          .input-wrap{
+            position relative
+            margin-bottom 12px
+            .source_input{
+              word-wrap break-word
+              width 100%
+              border none
+              border-color #ddd
+              font-family  'Roboto',arial,sans-serif
+              color #333
+              margin-top -4px
+              outline none
+              resize none
+              padding-left 16px
+              font-size 23px
+              padding-right 90px
+              min-height 31px
+              box-sizing border-box
+              overflow-x hidden
+              overflow-y hidden
             }
           }
         }

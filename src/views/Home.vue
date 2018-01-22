@@ -10,7 +10,7 @@
   import translate from '../components/translate'
   export default {
     components: {MyHeader, translate},
-    name: 'home',
+    name: 'Home',
     data () {
       return {}
     }
@@ -24,6 +24,5 @@
     padding-top: 70px
     box-sizing border-box;
     transition: all .25s ease;
-
   }
 </style>
