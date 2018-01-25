@@ -79,7 +79,8 @@
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.11.1",
     "webpack-merge": "^4.1.0",
-    "webpack-post-compile-plugin": "^0.1.2"
+    "webpack-post-compile-plugin": "^0.1.2",
+    "axios": "latest"
   },
   "engines": {
     "node": ">= 4.0.0",

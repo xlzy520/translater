@@ -7,8 +7,11 @@
             <div class="lang-btn">
               <cube-button @click="showActive" class="ls-select new-ls-select sl-btn">{{sl.content}}</cube-button>
             </div>
-          </div><div class="swap-wrap" @click="swap"><div class="swap"><div class="swap-btn-img btn-img"></div></div>
-        </div><div class="tl-selector lang-list">
+          </div><div class="swap-wrap" @click="swap">
+            <div class="swap">
+              <div class="swap-btn-img btn-img"></div>
+            </div>
+          </div><div class="tl-selector lang-list">
             <div class="lang-btn">
               <cube-button @click="showActive" class="ls-select new-ls-select tl-btn">{{tl.content}}</cube-button>
             </div>
@@ -18,20 +21,34 @@
           <div class="source-input">
             <div class="source-header">
               <div class="clear-wrap lzy-btn">
-                <div class="clear-btn btn-img"></div>
+                <div class="clear-btn btn-img" @click="clearInput"></div>
               </div>
               <div class="go-wrap lzy-btn">
-                <div class="go-btn btn-img"></div>
+                <div class="go-btn btn-img" @click="queryInput"></div>
               </div>
             </div>
             <div class="input-wrap">
-              <textarea id="source" class="source_input" placeholder="触摸即可输入文字"></textarea>
+              <textarea id="source" class="source_input" placeholder="触摸即可输入文字"
+                        v-model="sourceText">{{sourceText}}</textarea>
             </div>
             <div class="source-footer-wrap"></div>
           </div>
         </div>
       </div>
-      <div class="clist"></div>
+      <div class="cllist">
+        <div class="result_dict_wrapper">
+          <div class="result">
+            <div class="result_header"></div>
+            <div class="text_wrap">
+              <div class="result_container">
+                <span class="translation">萧玲芝</span>
+                <span class="trans_verified_btn" role="button"></span>
+              </div>
+              <span class="transliteration_target">{{transliteration_target}}xiaolingzhi</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="footer-history"></div>
     </div>
     <div class="page" style="display: none"></div>
@@ -40,71 +57,82 @@
 </template>
 
 <script>
-    export default {
-      name: 'translate',
-      data () {
-        return {
-          sl: {content: '中文', active: 0},
-          tl: {content: '日语', active: 2}
+  import tk from '../utils/Gettk'
+  import axios from 'axios'
+  export default {
+    name: 'translate',
+    data () {
+      return {
+        sourceText: '',//输入的文字
+        transliteration_target: '',
+        sl: {content: '中文', active: 0},
+        tl: {content: '日语', active: 2}
+      }
+    },
+    methods: {
+      showActive (e) {
+        let arg
+        if (e.target.className.indexOf('sl-btn') !== -1) {
+          arg = this.sl
+        } else {
+          arg = this.tl
         }
-      },
-      methods: {
-        showActive (e) {
-          let arg
-          if (e.target.className.indexOf('sl-btn') !== -1) {
-            arg = this.sl
-          } else {
-            arg = this.tl
-          }
-          this.$createActionSheet({
-            title: '选择语言',
-            active: arg.active,
-            data: [
-              {
-                content: '中文'
-              },
-              {
-                content: '英语'
-              },
-              {
-                content: '日语'
-              }
-            ],
-            onSelect: (item, index) => {
-              this.$createToast({
-                txt: `选择${item.content},第${index + 1}个`,
-                type: 'correct',
-                time: 500
-              }).show()
-              arg.content = item.content
-              arg.active = index
+        this.$createActionSheet({
+          title: '选择语言',
+          active: arg.active,
+          data: [
+            {
+              content: '中文'
             },
-            onCancel: () => {
-              this.$createToast({
-                txt: ``,
-                type: `warn`,
-                time: 500
-              })
+            {
+              content: '英语'
+            },
+            {
+              content: '日语'
             }
-          }).show()
-        },
-        swap () {
-          [this.sl, this.tl] = [this.tl, this.sl]
-        }
+          ],
+          onSelect: (item, index) => {
+            this.$createToast({
+              txt: `选择${item.content},第${index + 1}个`,
+              type: 'correct',
+              time: 500
+            }).show()
+            arg.content = item.content
+            arg.active = index
+          },
+          onCancel: () => {
+            this.$createToast({
+              txt: ``,
+              type: `warn`,
+              time: 500
+            })
+          }
+        }).show()
+      },
+      swap () {
+        [this.sl, this.tl] = [this.tl, this.sl]
+      },
+      clearInput () {
+        this.sourceText = null
+      },
+      queryInput () {
+        axios.get('')
+        console.log(tk('love'))
       }
     }
+  }
 </script>
 
 <style lang="stylus">
-  textarea{
+  textarea {
     background-image none
     border-radius 0
   }
+
   .translate-frame {
     width 100%
-    .btn-img{
-      background-image  -webkit-image-set(url('../assets/1x_mobile.png') 1x,
-      url('../assets/2x_mobile.png') 2x)
+    .btn-img {
+      background-image url('../assets/1x_mobile.png')
       height 24px
       width 24px
       display inline-block
@@ -114,7 +142,12 @@
       height 100%
       width 100%
       position relative
-
+      .translation {
+        font-size: 16px;
+        padding-right: 8px;
+        min-height: 20px;
+        line-height: 20px;
+      }
       .main-header {
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.35)
 
@@ -135,7 +168,7 @@
               font-size 14px
               height 46px
               position: relative;
-              .cube-btn{
+              .cube-btn {
                 padding 0
               }
               .ls-select {
@@ -167,8 +200,6 @@
                 white-space: pre;
               }
             }
-
-
 
           }
           .sl-selector .lang-btn {
@@ -205,39 +236,39 @@
         }
         .source-wrap {
           position relative
-          .source-input{
+          .source-input {
             position relative
             background-color #fff
             padding 16px 0 10px 0
             z-index 0
-            .source-header{
+            .source-header {
               position absolute
               right 12px
               z-index 1
               padding-left 16px
-              .clear-wrap{
+              .clear-wrap {
                 display inline-block
                 float right
-                .clear-btn{
+                .clear-btn {
                   background-position: 0 -192px;
-                  opacity: .55!important;
+                  opacity: .55 !important;
                   margin-top: 0;
                 }
               }
-              .go-wrap{
+              .go-wrap {
                 display inline-block
                 float: right
                 line-height 24px
-                box-shadow 0 1px 2px rgba(0,0,0,.54)
+                box-shadow 0 1px 2px rgba(0, 0, 0, .54)
                 background-color #4285f4
                 margin-right 24px
-                .go-btn{
+                .go-btn {
                   background-position: 0 -72px;
                   margin-left: 0;
                   vertical-align: bottom;
                 }
               }
-              .lzy-btn{
+              .lzy-btn {
                 border 0
                 border-radius 50%
                 width 24px
@@ -246,15 +277,15 @@
               }
             }
           }
-          .input-wrap{
+          .input-wrap {
             position relative
             margin-bottom 12px
-            .source_input{
+            .source_input {
               word-wrap break-word
               width 100%
               border none
               border-color #ddd
-              font-family  'Roboto',arial,sans-serif
+              font-family 'Roboto', arial, sans-serif
               color #333
               margin-top -4px
               outline none
@@ -266,6 +297,45 @@
               box-sizing border-box
               overflow-x hidden
               overflow-y hidden
+            }
+          }
+        }
+      }
+      .cllist {
+        padding-top 8px
+        padding-bottom 24px
+        .result_dict_wrapper {
+          box-shadow 0 1px 4px 0 rgba(0, 0, 0, 0.37)
+          .translation {
+            color #fff
+            white-space pre-wrap
+            font-size 23px
+            line-height normal
+          }
+          .result {
+            background-color #4285f4
+            padding 16px 16px 16px 16px
+            position: relative
+            min-height: 96px
+            .text_wrap {
+              min-height: 18px
+              .result_container {
+                .translation {
+                  padding 0 8px 0 0
+                }
+                .trans_verified_btn {
+
+                }
+              }
+              .transliteration_target {
+                color #c6dafc
+                direction ltr
+                display block
+                font-family inherit
+                font-size 14px
+                padding-right 32px
+                white-space pre-wrap
+              }
             }
           }
         }
