@@ -116,7 +116,15 @@
         this.sourceText = null
       },
       queryInput () {
-        axios.get('')
+        axios.get('https://translate.google.cn/translate_a/single?client=t&sl=zh-CN&tl=ja&hl=zh-CN' +
+          '&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&ie=UTF-8&oe=UTF-8&source=btn' +
+          '&ssel=0&tsel=0&kc=0',
+          {
+            params:{
+              q:this.sourceText,
+              tk:tk(this.sourceText)
+            }
+          })
         console.log(tk('love'))
       }
     }
