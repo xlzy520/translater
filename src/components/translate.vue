@@ -125,7 +125,6 @@
               tk:tk(this.sourceText)
             }
           })
-        console.log(tk('love'))
       }
     }
   }
