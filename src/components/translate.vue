@@ -5,7 +5,7 @@
         <div class="ls-wrap">
           <div class="sl-selector lang-list">
             <div class="lang-btn">
-              <cube-button @click="showActive" class="ls-select new-ls-select sl-btn">{{sl.content}}</cube-button>
+              <cube-button @click="lang_select" class="ls-select new-ls-select sl-btn">{{sl.content}}</cube-button>
             </div>
           </div><div class="swap-wrap" @click="swap">
             <div class="swap">
@@ -13,7 +13,7 @@
             </div>
           </div><div class="tl-selector lang-list">
             <div class="lang-btn">
-              <cube-button @click="showActive" class="ls-select new-ls-select tl-btn">{{tl.content}}</cube-button>
+              <cube-button @click="lang_select" class="ls-select new-ls-select tl-btn">{{tl.content}}</cube-button>
             </div>
           </div>
         </div>
@@ -28,23 +28,26 @@
               </div>
             </div>
             <div class="input-wrap">
-              <textarea id="source" class="source_input" placeholder="触摸即可输入文字"
-                        v-model="sourceText">{{sourceText}}</textarea>
+              <textarea id="source" class="source_input" placeholder="触摸即可输入文字" rows="1" autocomplete="off"
+                        v-model="sourceText" :style="{height:adapter_height+'px'}" ref="source">{{sourceText}}</textarea>
+              <div class="source-transliteration-container transliteration-container">
+                <div class="transliteration-content src-translit" id="src-translit">{{transliteration_content}}</div>
+              </div>
             </div>
             <div class="source-footer-wrap"></div>
           </div>
         </div>
       </div>
       <div class="cllist">
-        <div class="result_dict_wrapper">
+        <div class="result_dict_wrapper" :style="{display: result_dict_wrapper}">
           <div class="result">
             <div class="result_header"></div>
             <div class="text_wrap">
               <div class="result_container">
-                <span class="translation">萧玲芝</span>
+                <span class="translation">{{translation_target}}</span>
                 <span class="trans_verified_btn" role="button"></span>
               </div>
-              <span class="transliteration_target">{{transliteration_target}}xiaolingzhi</span>
+              <span class="transliteration_target">{{transliteration_target}}</span>
             </div>
           </div>
         </div>
@@ -63,14 +66,21 @@
     name: 'translate',
     data () {
       return {
+        adapter_height:'32',
+
         sourceText: '',//输入的文字
+        transliteration_content:'',
+        translation_target:'',
         transliteration_target: '',
-        sl: {content: '中文', active: 0},
-        tl: {content: '日语', active: 2}
+
+        sl: {content: '中文', active: 0,abbr:'zh-CN'},
+        tl: {content: '日语', active: 2,abbr:'ja'},
+
+        result_dict_wrapper:'none'
       }
     },
     methods: {
-      showActive (e) {
+      lang_select (e) {
         let arg
         if (e.target.className.indexOf('sl-btn') !== -1) {
           arg = this.sl
@@ -82,13 +92,16 @@
           active: arg.active,
           data: [
             {
-              content: '中文'
+              content: '中文',
+              abbr:'zh-CN'
             },
             {
-              content: '英语'
+              content: '英语',
+              abbr:'en'
             },
             {
-              content: '日语'
+              content: '日语',
+              abbr:'ja'
             }
           ],
           onSelect: (item, index) => {
@@ -99,6 +112,7 @@
             }).show()
             arg.content = item.content
             arg.active = index
+            arg.abbr=item.abbr
           },
           onCancel: () => {
             this.$createToast({
@@ -113,18 +127,42 @@
         [this.sl, this.tl] = [this.tl, this.sl]
       },
       clearInput () {
+        this.result_dict_wrapper='none'
         this.sourceText = null
+        this.transliteration_content=null
+        this.transliteration_target=null
+        this.translation_target=null
       },
       queryInput () {
-        axios.get('https://translate.google.cn/translate_a/single?client=t&sl=zh-CN&tl=ja&hl=zh-CN' +
-          '&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&ie=UTF-8&oe=UTF-8&source=btn' +
-          '&ssel=0&tsel=0&kc=0',
+        if(this.sourceText==null){
+          return
+        }
+        axios.get('/api?client=t&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&' +
+          'ie=UTF-8&oe=UTF-8&source=btn&ssel=0&tsel=0&kc=0',
           {
             params:{
+              sl:this.sl.abbr,
+              tl:this.tl.abbr,
+              tk:tk.tk(this.sourceText),
               q:this.sourceText,
-              tk:tk(this.sourceText)
             }
-          })
+          }).then((data)=>{
+          this.translation_target=data.data[0][0][0]
+          this.transliteration_content=data.data[0][1][3]
+          this.transliteration_target=data.data[0][1][2]
+          this.result_dict_wrapper='block'
+        })
+
+      },
+    },
+    watch:{
+      sourceText:function () {
+        this.queryInput()
+        this.$refs.source.style.height=this.$refs.source.scrollTop+this.$refs.source.scrollHeight+'px'
+        // document.getElementById('source').style.height=document.getElementById('source').scrollTop+
+        //   document.getElementById('source').scrollHeight+'px'
+        // console.log(document.getElementById('source').style.height);
+        // console.log(e.indexOf('\n'))
       }
     }
   }
@@ -287,6 +325,14 @@
           .input-wrap {
             position relative
             margin-bottom 12px
+            #src-translit {
+              color: #777;
+              direction: ltr;
+              font-family: inherit;
+              font-size: 14px;
+              padding: 0 48px 0 16px;
+              white-space: pre-wrap;
+            }
             .source_input {
               word-wrap break-word
               width 100%

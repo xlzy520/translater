@@ -33,6 +33,5 @@ var tk = function (a) {
 // res=tk('你好', '413794.873502576');
 // res=tk(decodeURI('%E5%82%BB%E9%80%BC'), '413789.1384542795');
 // console.log(res);
-console.log(tk('love'))
 exports.b = b
 exports.tk = tk
