@@ -17,9 +17,8 @@
     "cube-ui"
   ],
   "dependencies": {
-    "amfe-flexible": "^2.2.1",
     "compression-webpack-plugin": "^1.1.11",
-    "cube-ui": "^1.2.6",
+    "cube-ui": "^1.10.4",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
@@ -74,13 +73,13 @@
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-jest": "^1.0.2",
-    "vue-loader": "^13.3.0",
+    "vue-loader": "^13.7.2",
     "vue-style-loader": "^3.0.1",
-    "vue-template-compiler": "^2.5.2",
-    "webpack": "^3.6.0",
-    "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": "^2.11.1",
-    "webpack-merge": "^4.1.0",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^3.12.0",
+    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-dev-server": "^2.11.2",
+    "webpack-merge": "^4.1.3",
     "webpack-post-compile-plugin": "^0.1.2"
   },
   "engines": {
